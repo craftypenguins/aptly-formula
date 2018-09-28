@@ -84,7 +84,7 @@ import_gpg_pub_key:
 
 import_gpg_priv_key:
   cmd.run:
-    - name: gpg --no-tty --allow-secret-key-import --import {{ gpgprivfile }}
+    - name: gpg --no-tty --pinentry-mode loopback --import {{ gpgprivfile }}
     - runas: aptly
     - unless: gpg --no-tty --list-secret-keys | grep '{{ gpgid }}'
     - env:
