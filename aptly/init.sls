@@ -11,12 +11,12 @@ aptly_repo:
 
 aptly:
   pkg.installed:
-    - name: aptly
     - refresh: True
-
-# dependency for publishing
-bzip2:
-  pkg.installed
+    - pkgs:
+      - aptly
+      - gnupg1
+      - gpgv1
+      - bzip2
 
 aptly_user:
   user.present:
