@@ -74,9 +74,9 @@ gpg_pub_key:
 
 import_gpg_pub_key:
   cmd.run:
-    - name: gpg --no-tty --import {{ gpgpubfile }}
+    - name: gpg1 --no-tty --import {{ gpgpubfile }}
     - runas: aptly
-    - unless: gpg --no-tty --list-keys | grep '{{ gpgid }}'
+    - unless: gpg1 --no-tty --list-keys | grep '{{ gpgid }}'
     - env:
       - HOME: {{ salt['pillar.get']('aptly:homedir', '/var/lib/aptly') }}
     - require:
@@ -84,9 +84,9 @@ import_gpg_pub_key:
 
 import_gpg_priv_key:
   cmd.run:
-    - name: gpg --no-tty --pinentry-mode loopback --import {{ gpgprivfile }}
+    - name: gpg1 --no-tty --import {{ gpgprivfile }}
     - runas: aptly
-    - unless: gpg --no-tty --list-secret-keys | grep '{{ gpgid }}'
+    - unless: gpg1 --no-tty --list-secret-keys | grep '{{ gpgid }}'
     - env:
       - HOME: {{ salt['pillar.get']('aptly:homedir', '/var/lib/aptly') }}
     - require:
