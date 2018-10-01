@@ -13,7 +13,7 @@ create_{{ repo_name }}_repo:
   cmd.run:
     - name: aptly repo create -distribution="{{ distribution }}" -comment="{{ opts['comment'] }}" -component="{{ component }}" {{ repo_name }}
     - unless: aptly repo show {{ repo_name }}
-    - user: aptly
+    - runas: aptly
     - env:
       - HOME: {{ homedir }}
     - require:
@@ -26,14 +26,14 @@ create_{{ repo_name }}_repo:
     - group: root
     - mode: 777
     - makedirs: True
-        {% set numcurrentpkgs = salt['cmd.run']('aptly repo show ' ~ repo_name ~ ' | tail -n1 | cut -f4 -d" "', user='aptly', env="[{\'HOME\':\'' ~ homedir ~ '\'}]") %}
+        {% set numcurrentpkgs = salt['cmd.run']('aptly repo show ' ~ repo_name ~ ' | tail -n1 | cut -f4 -d " "', runas='aptly', env="[{\'HOME\':\'' ~ homedir ~ '\'}]", python_shell=True) %}
         {% set pkgsinpkgdir = salt['file.find']('/srv/dist/dist/repo', type='f', iregex='.*(deb|udeb|dsc)$')|count %}
         {% if numcurrentpkgs != pkgsinpkgdir %}
           {# we dont  have all the packages loaded, add all packages in opts['pkgdir'] #}
 add_{{ repo_name }}_pkgs:
   cmd.run:
     - name: aptly repo add -force-replace=true -remove-files=true {{ repo_name }} {{ opts['pkgdir'] }}/{{ distribution }}/{{ component }}
-    - user: aptly
+    - runas: aptly
     - env:
       - HOME: {{ homedir }}
     - onlyif:
