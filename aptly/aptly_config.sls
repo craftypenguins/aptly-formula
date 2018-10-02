@@ -1,5 +1,6 @@
 include:
   - aptly
+  - aptly.systemd
 
 aptly_homedir:
   file.directory:
