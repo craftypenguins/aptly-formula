@@ -1,0 +1,18 @@
+{% import_yaml "aptly/defaults.yaml" as defaults %}
+{% import_yaml "aptly/osmap.yaml" as osmap %}
+
+{% set os = salt['grains.filter_by'](
+  osmap,
+  merge=salt['pillar.get']('aptly:lookup', {}),
+)
+%}
+
+{% do defaults.aptly.update(os) %}
+
+{% set aptly = salt['pillar.get'](
+  'aptly',
+  default=defaults.aptly,
+  merge=True,
+)
+%}
+

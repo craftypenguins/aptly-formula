@@ -1,0 +1,6 @@
+Debian:
+  pkgs:
+    - aptly
+    - gnupg1
+    - gpgv1
+    - bzip2
