@@ -1,0 +1,11 @@
+aptly:
+  homedir: /srv/aptly
+  rootdir: /srv/aptly/repo
+  architectures:
+    - amd64
+  secure: True
+  user:
+    uid: 4000
+    gid: 4000
+  port: 8081
+  s3Endpoints: {}

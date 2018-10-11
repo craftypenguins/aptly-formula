@@ -1,3 +1,5 @@
+{% from "aptly/map.jinja" import aptly with context %}
+
 aptly_repo:
   pkgrepo.managed:
     - humanname: Aptly PPA
@@ -13,22 +15,17 @@ aptly:
   pkg.installed:
     - refresh: True
     - pkgs:
-      - aptly
-      - gnupg1
-      - gpgv1
-      - bzip2
+{% for item in aptly.pkgs %}
+      - {{ item }}
+{% endfor %}
 
 aptly_user:
   user.present:
     - name: aptly
     - shell: /bin/bash
-    - home: {{ salt['pillar.get']('aptly:homedir', '/var/lib/aptly') }}
+    - home: {{ aptly.homedir }}
     - require:
       - pkg: aptly
-    {% if salt['pillar.get']('aptly:user:uid', 0) %}
-    - uid: {{ salt['pillar.get']('aptly:user:uid') }}
-    {% endif %}
-    {% if salt['pillar.get']('aptly:user:gid', 0) %}
-    - gid: {{ salt['pillar.get']('aptly:user:gid') }}
+    - uid: {{ aptly.user.uid }}
+    - gid: {{ aptly.user.gid }}
     - gid_from_name: True
-    {% endif %}
