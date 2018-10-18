@@ -15,9 +15,7 @@ aptly:
   pkg.installed:
     - refresh: True
     - pkgs:
-{% for item in aptly.pkgs %}
-      - {{ item }}
-{% endfor %}
+      {{ aptly.pkgs | yaml(False) | indent(6) }}
 
 aptly_user:
   user.present:

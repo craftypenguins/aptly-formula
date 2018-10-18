@@ -15,7 +15,7 @@ aptly_homedir:
 aptly_systemd:
   file.managed:
     - name: /etc/systemd/system/aptly.service
-    - source: salt://aptly/files/systemd.service.jinja
+    - source: salt://aptly/templates/systemd.service.jinja
     - template: jinja
     - user: root
     - group: root
@@ -34,7 +34,7 @@ aptly_rootdir:
 aptly_conf:
   file.managed:
     - name: {{ aptly.homedir }}/.aptly.conf
-    - source: salt://aptly/files/aptly.conf.jinja
+    - source: salt://aptly/templates/aptly.conf.jinja
     - template: jinja
     - user: aptly
     - group: aptly
