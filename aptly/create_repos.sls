@@ -1,11 +1,12 @@
+{% from "aptly/map.jinja" import aptly with context %}
 # Set up our Aptly repos
 
 include:
   - aptly
   - aptly.aptly_config
 
-{% for repo, opts in salt['pillar.get']('aptly:repos').items() %}
-  {% set homedir = salt['pillar.get']('aptly:homedir', '/var/lib/aptly') %}
+{% for repo, opts in aptly.repos.items() %}
+  {% set homedir = aptly.homedir %}
   {% for distribution in opts['distributions'] %}
     {% for component in opts['components'] %}
       {% set repo_name = repo + '_' + distribution + '_' + component %}

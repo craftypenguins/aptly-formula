@@ -1,14 +1,15 @@
+{% from "aptly/map.jinja" import aptly with context %}
 # Set up our Aptly mirrors
 
 include:
   - aptly
   - aptly.aptly_config
 
-{% if salt['pillar.get']('aptly:mirrors') %}
-{% for mirror, opts in salt['pillar.get']('aptly:mirrors').items() %}
+{% if aptly.mirrors) %}
+{% for mirror, opts in aptly.mirrors.items() %}
   {% set mirrorloop = mirror %}
-  {%- set homedir = salt['pillar.get']('aptly:homedir', '/var/lib/aptly') -%}
-  {%- set keyring = salt['pillar.get']('aptly:keyring', 'trustedkeys.gpg') -%}
+  {%- set homedir = aptly.homedir -%}
+  {%- set keyring = aptly.keyring -%}
   {%- if opts['url'] is defined -%}
     {# if we have a url parameter #}
     {%- set create_mirror_cmd = "aptly mirror create -architectures='" ~ opts['architectures']|default([])|join(',') ~ "' " ~ mirror ~ " " ~ opts['url'] ~ " " ~ opts['distribution']|default('') ~ " " ~ opts['components']|default([])|join(' ') -%}

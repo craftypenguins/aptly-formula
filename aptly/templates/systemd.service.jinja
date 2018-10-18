@@ -1,0 +1,13 @@
+{% from "aptly/map.jinja" import aptly with context %}
+
+[Unit]
+Description=Aptly REST API service
+
+[Service]
+User=aptly
+Group=aptly
+WorkingDirectory={{ aptly.homedir }}
+ExecStart=/usr/bin/aptly api serve -no-lock -listen ":{{ aptly.port }}"
+
+[Install]
+WantedBy=multi-user.target
